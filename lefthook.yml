@@ -1,6 +1,12 @@
 # Git hooks, installed automatically by `pnpm install` (see the "prepare" script).
 # Docs: https://lefthook.dev/configuration/
 
+pre-commit:
+  jobs:
+    - name: biome
+      run: pnpm lint:fix --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+
 commit-msg:
   jobs:
     - name: commitlint
