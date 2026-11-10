@@ -1,2 +1,5 @@
+# Dependencies
+node_modules/
+
 # Local only: personal notes and working docs that must never be committed.
 *.local.md

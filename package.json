@@ -1,0 +1,19 @@
+{
+  "name": "jira-assistant",
+  "version": "0.0.0",
+  "private": true,
+  "description": "AI plugin that checks Jira tickets against a Definition of Ready and refines them",
+  "author": "Andres Martinez",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.18.0",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.18.0"
+}
