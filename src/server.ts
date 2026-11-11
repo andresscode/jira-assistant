@@ -1,7 +1,10 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import pkg from '../package.json' with { type: 'json' }
+import { registerStatusTool } from './tools/status.ts'
 
-/** Creates the MCP server. Tools are registered here as they are added. */
+/** Creates the MCP server with all its tools registered. */
 export function createServer(): McpServer {
-  return new McpServer({ name: pkg.name, version: pkg.version })
+  const server = new McpServer({ name: pkg.name, version: pkg.version })
+  registerStatusTool(server)
+  return server
 }
