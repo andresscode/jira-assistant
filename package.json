@@ -8,7 +8,9 @@
   "scripts": {
     "prepare": "lefthook install",
     "lint": "biome check",
-    "lint:fix": "biome check --write"
+    "lint:fix": "biome check --write",
+    "typecheck": "tsc",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node24 --outfile=plugin/dist/server.mjs"
   },
   "engines": {
     "node": ">=24"
@@ -21,11 +23,18 @@
     }
   },
   "packageManager": "pnpm@12.18.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
-    "lefthook": "^2.2.2"
+    "@types/node": "^24.19.2",
+    "esbuild": "^0.28.2",
+    "lefthook": "^2.2.2",
+    "typescript": "^7.0.2"
   },
   "commitlint": {
     "extends": [

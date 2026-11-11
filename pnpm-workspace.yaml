@@ -1,3 +1,4 @@
 allowBuilds:
+  esbuild: false
   lefthook: false
 minimumReleaseAge: 4320

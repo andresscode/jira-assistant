@@ -1,0 +1,29 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    // Environment: Node.js 24 (the minimum supported version)
+    "module": "nodenext",
+    "target": "es2024",
+    "types": ["node"],
+    "resolveJsonModule": true,
+
+    // Type-check only: esbuild builds the bundle, and Node runs .ts files
+    // directly (tests), so only syntax Node can strip is allowed.
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+
+    // Stricter Typechecking Options
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // Recommended Options
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  },
+  "include": ["src", "test"]
+}
