@@ -1,5 +1,5 @@
 # Dependencies
 node_modules/
 
-# Local only: personal notes and working docs that must never be committed.
+# Local working notes, such as plans and context for AI agents. Never committed.
 *.local.md
