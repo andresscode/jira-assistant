@@ -7,6 +7,11 @@ pre-commit:
       run: pnpm lint:fix --no-errors-on-unmatched {staged_files}
       stage_fixed: true
 
+pre-push:
+  jobs:
+    - name: typecheck
+      run: pnpm typecheck
+
 commit-msg:
   jobs:
     - name: commitlint
