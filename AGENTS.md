@@ -11,6 +11,8 @@ A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira ticket
 - `pnpm install`: install dependencies and git hooks
 - `pnpm lint`: check formatting, lint rules and import order with Biome (changes nothing)
 - `pnpm lint:fix`: apply safe fixes
+- `pnpm typecheck`: check types with TypeScript
+- `pnpm build`: bundle the server into `plugin/dist/server.mjs`
 
 ## Conventions
 
@@ -18,7 +20,6 @@ A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira ticket
 - Don't format by hand: Biome enforces the style (2 spaces, single quotes, no semicolons). Run `pnpm lint:fix`.
 - Commit messages follow Conventional Commits, checked by commitlint. Add a body only when the reason for a change isn't obvious from the subject and the code, with lines under 100 characters.
 - Don't add attribution lines to commits or pull requests, such as `Co-Authored-By` or "Generated with".
-- Pull requests are squash-merged: the title becomes the commit subject on `main` and the description becomes its body. Write the title in Conventional Commits format, and limit the description to the reason for the change (or leave it empty). No checklists, summaries of the diff or test notes.
-- Before opening a pull request, squash the branch into one commit, so GitHub pre-fills the title and description from it. See `CONTRIBUTING.md` for the full workflow.
+- A pull request must contain exactly one commit (CI enforces it), which is merged with "Rebase and merge" and lands on `main` unchanged. Squash the branch into one commit before opening the pull request, and amend it (then force-push) for later changes. See `CONTRIBUTING.md` for the full workflow.
 - Add dependencies with `pnpm add`. Versions published less than 3 days ago are rejected on purpose, and dependency install scripts are blocked unless listed under `allowBuilds` in `pnpm-workspace.yaml`.
 - Files named `*.local.md` are local working notes and are ignored by git. Never commit them.
