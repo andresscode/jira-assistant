@@ -16,6 +16,14 @@ pnpm install
 
 `pnpm install` also installs the git hooks.
 
+## Project structure
+
+- `src/index.ts`: entry point. The AI tool starts the server and talks to it over stdin and stdout.
+- `src/server.ts`: creates the server and registers every tool.
+- `src/tools/`: one file per tool.
+- `plugin/`: what ships to users. `plugin/dist/` is build output and isn't committed.
+- `test/unit/` and `test/e2e/`: tests (see [Tests](#tests)).
+
 ## Scripts
 
 | Command          | What it does                                                     |
@@ -73,10 +81,10 @@ converter now emits a blank line between paragraphs.
 
 Each pull request adds exactly one commit to `main`, exactly as you wrote it.
 
-1. Create a branch from `main`, for example `git switch -c feat/readiness-check`.
+1. Create a branch from `main` named `<type>/<short-name>`, for example `git switch -c feat/readiness-check`.
 2. Commit as often as you like while you work.
 3. Before opening a pull request, rebase onto the latest `main` and squash your work into one commit with its final subject and, if needed, a body.
-4. Open a pull request. CI checks that it has exactly one commit and that the message follows Conventional Commits. The pull request description is free-form.
+4. Open a pull request. CI runs lint, typecheck, build and tests on Linux (Node 24) and Windows (Node 26), and checks that there's exactly one commit with a Conventional Commits message. Both runs must pass before merging. The pull request description is free-form.
 5. To change something after review, amend the commit and force-push the branch.
 6. Merge with **Rebase and merge**. The commit lands on `main` unchanged, and history stays linear.
 
