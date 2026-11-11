@@ -13,6 +13,9 @@ A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira ticket
 - `pnpm lint:fix`: apply safe fixes
 - `pnpm typecheck`: check types with TypeScript
 - `pnpm build`: bundle the server into `plugin/dist/server.mjs`
+- `pnpm test`: run all tests (unit, then end-to-end)
+- `pnpm test:unit`: run the unit tests in `test/unit/` (no build needed)
+- `pnpm test:e2e`: build, then run the end-to-end tests in `test/e2e/` against the bundle
 
 ## Conventions
 
@@ -21,5 +24,6 @@ A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira ticket
 - Commit messages follow Conventional Commits, checked by commitlint. Add a body only when the reason for a change isn't obvious from the subject and the code, with lines under 100 characters.
 - Don't add attribution lines to commits or pull requests, such as `Co-Authored-By` or "Generated with".
 - A pull request must contain exactly one commit (CI enforces it), which is merged with "Rebase and merge" and lands on `main` unchanged. Squash the branch into one commit before opening the pull request, and amend it (then force-push) for later changes. See `CONTRIBUTING.md` for the full workflow.
+- Add or update tests with every change in behaviour, and run `pnpm test` before finishing. Tests use `node:test` and `node:assert`, with no other test libraries. Unit tests in `test/unit/` import from `src/`; end-to-end tests in `test/e2e/` use the built bundle. Use invented data only (`ABC-123`, `example.atlassian.net`).
 - Add dependencies with `pnpm add`. Versions published less than 3 days ago are rejected on purpose, and dependency install scripts are blocked unless listed under `allowBuilds` in `pnpm-workspace.yaml`.
 - Files named `*.local.md` are local working notes and are ignored by git. Never commit them.

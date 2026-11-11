@@ -24,8 +24,20 @@ pnpm install
 | `pnpm lint:fix`  | Applies the fixes that are safe to make automatically.           |
 | `pnpm typecheck` | Checks types with TypeScript. Changes nothing.                   |
 | `pnpm build`     | Bundles the server into `plugin/dist/server.mjs`.                |
+| `pnpm test`      | Runs all tests: unit, then end-to-end.                           |
+| `pnpm test:unit` | Runs the unit tests. No build needed.                            |
+| `pnpm test:e2e`  | Builds, then runs the end-to-end tests against the bundle.       |
 
 Formatting and linting use [Biome](https://biomejs.dev/).
+
+## Tests
+
+Tests use Node's built-in test runner (`node:test` and `node:assert`). Node runs the `.ts` files directly, so there's no compile step.
+
+- **Unit tests** go in `test/unit/` and import code from `src/` directly. Use them for logic with many cases.
+- **End-to-end tests** go in `test/e2e/`. They start the built server the way an AI tool does and talk to it over MCP.
+- Name test files `*.test.ts`.
+- Use invented data only, such as `ABC-123` and `example.atlassian.net`. Never use real ticket content or API responses.
 
 ## Git hooks
 
@@ -33,7 +45,7 @@ Formatting and linting use [Biome](https://biomejs.dev/).
 
 - **pre-commit:** runs `pnpm lint:fix` on the staged files and stages the fixes.
 - **commit-msg:** checks the message with [commitlint](https://commitlint.js.org/).
-- **pre-push:** runs `pnpm typecheck`.
+- **pre-push:** runs `pnpm typecheck` and `pnpm test`.
 
 ## Commit messages
 
