@@ -45,11 +45,22 @@ chore: update biome
 
 Common types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `ci`, `build`.
 
+Add a body only when the reason for a change isn't obvious from the subject and the code. Separate it from the subject with a blank line and keep lines under 100 characters. Mark breaking changes with a `BREAKING CHANGE:` footer.
+
+```text
+fix: keep line breaks in rewritten descriptions
+
+Jira Data Center collapses single newlines in wiki markup, so the
+converter now emits a blank line between paragraphs.
+```
+
 ## Workflow
 
 1. Create a branch from `main`, for example `git switch -c feat/readiness-check`.
-2. Before opening a pull request, rebase onto the latest `main`.
-3. Open a pull request. Its title must follow Conventional Commits too: pull requests are squash-merged, so the title becomes the commit message on `main`.
+2. Commit as often as you like while you work.
+3. Before opening a pull request, rebase onto the latest `main` and squash your work into one commit with a final subject and, if needed, a body.
+4. Open a pull request. GitHub fills its title and description from that commit.
+5. Pull requests are squash-merged: the title becomes the commit subject on `main`, and the description becomes its body. Keep the title in Conventional Commits format, and keep the description to the reason for the change, without checklists or other notes. Leave it empty if the change needs no explanation.
 
 ## Dependencies
 
