@@ -16,8 +16,21 @@ concurrency:
 # Third-party actions are pinned to a commit, with the release tag in a comment.
 jobs:
   checks:
-    name: Checks
-    runs-on: ubuntu-latest
+    name: Checks (${{ matrix.os }}, Node ${{ matrix.node }})
+    # Two runs cover both operating systems and both supported Node versions:
+    # the minimum (24) on Linux, and the current LTS (26) on Windows, which users run.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            node: 24
+          - os: windows-latest
+            node: 26
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -25,7 +38,7 @@ jobs:
       - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version-file: .nvmrc
+          node-version: ${{ matrix.node }}
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
@@ -35,8 +48,9 @@ jobs:
 
       # Pull requests are merged with "Rebase and merge", so their single commit lands on
       # main exactly as written. Check that there is one commit and that its message is valid.
+      # These don't depend on the OS, so they run only on Linux.
       - name: Check there is exactly one commit
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && runner.os == 'Linux'
         env:
           COMMITS: ${{ github.event.pull_request.commits }}
         run: |
@@ -45,7 +59,7 @@ jobs:
             exit 1
           fi
       - name: Check the commit message
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && runner.os == 'Linux'
         env:
           BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.event.pull_request.head.sha }}
