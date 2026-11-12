@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "jira-assistant",
+  "version": "0.0.1",
+  "description": "AI plugin that checks Jira tickets against a Definition of Ready and refines them",
+  "author": {
+    "name": "Andres Martinez"
+  }
+}

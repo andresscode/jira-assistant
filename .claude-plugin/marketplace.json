@@ -1,0 +1,14 @@
+{
+  "name": "jira-assistant",
+  "owner": {
+    "name": "Andres Martinez"
+  },
+  "description": "AI plugin that checks Jira tickets against a Definition of Ready and refines them",
+  "plugins": [
+    {
+      "name": "jira-assistant",
+      "source": "./plugin",
+      "description": "AI plugin that checks Jira tickets against a Definition of Ready and refines them"
+    }
+  ]
+}

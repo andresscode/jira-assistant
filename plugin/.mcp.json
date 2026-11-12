@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "jira-assistant": {
+      "command": "node",
+      "args": ["--use-system-ca", "${CLAUDE_PLUGIN_ROOT}/dist/server.mjs"]
+    }
+  }
+}
