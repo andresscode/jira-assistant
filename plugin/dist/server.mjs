@@ -23554,7 +23554,7 @@ var EMPTY_COMPLETION_RESULT = {
 // package.json
 var package_default = {
   name: "jira-assistant",
-  version: "0.0.1",
+  version: "0.0.2",
   private: true,
   description: "AI plugin that checks Jira tickets against a Definition of Ready and refines them",
   author: "Andres Martinez",
