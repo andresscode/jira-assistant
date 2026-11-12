@@ -5,6 +5,7 @@ node_modules/
 plugin/dist/
 plugin/.claude-plugin/plugin.json
 plugin/plugin.json
+release/
 
 # Local working notes, such as plans and context for AI agents. Never committed.
 *.local.md

@@ -23,19 +23,22 @@ pnpm install
 - `src/tools/`: one file per tool.
 - `plugin/`: what ships to users. One folder serves both AI tools: Claude Code reads `.claude-plugin/plugin.json` and `.mcp.json`, Copilot reads `plugin.json` and `mcp.json`, and both share `skills/`. `plugin/dist/` and both `plugin.json` files are build output and aren't committed.
 - `scripts/build-manifests.ts`: writes both `plugin.json` files from `package.json` during the build.
+- `scripts/build-release.ts`: puts together what a release publishes (see [Releases](#releases)).
 - `test/unit/` and `test/e2e/`: tests (see [Tests](#tests)).
 
 ## Scripts
 
-| Command          | What it does                                                                      |
-| ---------------- | --------------------------------------------------------------------------------- |
-| `pnpm lint`      | Checks formatting, lint rules and import order. Changes nothing.                  |
-| `pnpm lint:fix`  | Applies the fixes that are safe to make automatically.                            |
-| `pnpm typecheck` | Checks types with TypeScript. Changes nothing.                                    |
-| `pnpm build`     | Bundles the server into `plugin/dist/server.mjs` and writes the plugin manifests. |
-| `pnpm test`      | Runs all tests: unit, then end-to-end.                                            |
-| `pnpm test:unit` | Runs the unit tests. No build needed.                                             |
-| `pnpm test:e2e`  | Builds, then runs the end-to-end tests against the bundle.                        |
+| Command                              | What it does                                                                                     |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `pnpm lint`                          | Checks formatting, lint rules and import order. Changes nothing.                                 |
+| `pnpm lint:fix`                      | Applies the fixes that are safe to make automatically.                                           |
+| `pnpm typecheck`                     | Checks types with TypeScript. Changes nothing.                                                   |
+| `pnpm build`                         | Bundles the server into `plugin/dist/server.mjs` and writes the plugin manifests.                |
+| `pnpm test`                          | Runs all tests: unit, then end-to-end.                                                           |
+| `pnpm test:unit`                     | Runs the unit tests. No build needed.                                                            |
+| `pnpm test:e2e`                      | Builds, then runs the end-to-end tests against the bundle.                                       |
+| `pnpm build:release`                 | Builds, then writes the release folder `release/`: the marketplace catalog and the built plugin. |
+| `pnpm release <patch\|minor\|major>` | Bumps the version, then commits and tags it. See [Releases](#releases).                          |
 
 Formatting and linting use [Biome](https://biomejs.dev/).
 
@@ -101,4 +104,14 @@ Files named `*.local.md` are ignored by git. Use them for personal notes and wor
 
 ## Releases
 
-Not set up yet. This section will explain how to publish a new version.
+Users install the plugin from the `release` branch, which holds only built releases: the marketplace catalog (`.claude-plugin/marketplace.json`) and the built plugin (`plugin/`). Nobody commits to it by hand. The version lives in `package.json` only, and the build writes it into the plugin.
+
+To publish a new version:
+
+1. Switch to `main` and pull, so you release the latest merged work. The working tree must be clean.
+2. Run `pnpm release patch` (or `minor`, or `major`). It bumps `package.json`, commits `chore: release X.Y.Z` and tags it `vX.Y.Z`.
+3. Run `git push --follow-tags`. This pushes the commit straight to `main`, which the repository admin is allowed to do.
+
+The tag starts the release workflow (`.github/workflows/release.yml`). It checks that the tag is on `main` and matches `package.json`, runs all checks and tests, then commits the release to the `release` branch.
+
+To try a release before tagging, run `pnpm build:release` and add the local folder as a marketplace: `claude plugin marketplace add ./release`.
