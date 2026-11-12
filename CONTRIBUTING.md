@@ -21,20 +21,21 @@ pnpm install
 - `src/index.ts`: entry point. The AI tool starts the server and talks to it over stdin and stdout.
 - `src/server.ts`: creates the server and registers every tool.
 - `src/tools/`: one file per tool.
-- `plugin/`: what ships to users. `plugin/dist/` is build output and isn't committed.
+- `plugin/`: what ships to users. One folder serves both AI tools: Claude Code reads `.claude-plugin/plugin.json` and `.mcp.json`, Copilot reads `plugin.json` and `mcp.json`, and both share `skills/`. `plugin/dist/` and both `plugin.json` files are build output and aren't committed.
+- `scripts/build-manifests.ts`: writes both `plugin.json` files from `package.json` during the build.
 - `test/unit/` and `test/e2e/`: tests (see [Tests](#tests)).
 
 ## Scripts
 
-| Command          | What it does                                                     |
-| ---------------- | ---------------------------------------------------------------- |
-| `pnpm lint`      | Checks formatting, lint rules and import order. Changes nothing. |
-| `pnpm lint:fix`  | Applies the fixes that are safe to make automatically.           |
-| `pnpm typecheck` | Checks types with TypeScript. Changes nothing.                   |
-| `pnpm build`     | Bundles the server into `plugin/dist/server.mjs`.                |
-| `pnpm test`      | Runs all tests: unit, then end-to-end.                           |
-| `pnpm test:unit` | Runs the unit tests. No build needed.                            |
-| `pnpm test:e2e`  | Builds, then runs the end-to-end tests against the bundle.       |
+| Command          | What it does                                                                      |
+| ---------------- | --------------------------------------------------------------------------------- |
+| `pnpm lint`      | Checks formatting, lint rules and import order. Changes nothing.                  |
+| `pnpm lint:fix`  | Applies the fixes that are safe to make automatically.                            |
+| `pnpm typecheck` | Checks types with TypeScript. Changes nothing.                                    |
+| `pnpm build`     | Bundles the server into `plugin/dist/server.mjs` and writes the plugin manifests. |
+| `pnpm test`      | Runs all tests: unit, then end-to-end.                                            |
+| `pnpm test:unit` | Runs the unit tests. No build needed.                                             |
+| `pnpm test:e2e`  | Builds, then runs the end-to-end tests against the bundle.                        |
 
 Formatting and linting use [Biome](https://biomejs.dev/).
 

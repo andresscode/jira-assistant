@@ -10,7 +10,7 @@ A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira ticket
 
 - `src/index.ts` is the entry point, and `src/server.ts` creates the server and registers every tool.
 - Each tool lives in its own file in `src/tools/`. A new tool needs: a description that tells the AI when to use it, correct annotations (`readOnlyHint` when it changes nothing), registration in `src/server.ts`, and an end-to-end test.
-- `plugin/` is what ships to users. `plugin/dist/` is build output.
+- `plugin/` is what ships to users, one folder for both AI tools: Claude Code reads `.claude-plugin/plugin.json` and `.mcp.json`, Copilot reads `plugin.json` and `mcp.json` (Agent Plugins 1.0), and both share `skills/`. `plugin/dist/` and both `plugin.json` files are build output, written from `package.json` by `scripts/build-manifests.ts`; edit `package.json`, not the manifests.
 
 ## Commands
 
@@ -18,7 +18,7 @@ A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira ticket
 - `pnpm lint`: check formatting, lint rules and import order with Biome (changes nothing)
 - `pnpm lint:fix`: apply safe fixes
 - `pnpm typecheck`: check types with TypeScript
-- `pnpm build`: bundle the server into `plugin/dist/server.mjs`
+- `pnpm build`: bundle the server into `plugin/dist/server.mjs` and write the plugin manifests
 - `pnpm test`: run all tests (unit, then end-to-end)
 - `pnpm test:unit`: run the unit tests in `test/unit/` (no build needed)
 - `pnpm test:e2e`: build, then run the end-to-end tests in `test/e2e/` against the bundle
