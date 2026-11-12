@@ -28,14 +28,16 @@ Node.js 24 or newer, installed so that every app can find it. Use the installer 
 
 ## Installation
 
-Jira Assistant is installed from its marketplace, the `release` branch of this repository.
+Jira Assistant is installed from its marketplace, the `release` branch of this repository. For the command-line apps, run the commands in a terminal. Inside a session, the same commands work as `/plugin ...`.
 
 ### Claude Code
 
-```text
-/plugin marketplace add andresscode/jira-assistant#release
-/plugin install jira-assistant@jira-assistant
+```sh
+claude plugin marketplace add andresscode/jira-assistant#release
+claude plugin install jira-assistant@jira-assistant
 ```
+
+More in Claude Code's guide to [installing plugins](https://code.claude.com/docs/en/plugins/install).
 
 ### GitHub Copilot CLI
 
@@ -44,11 +46,15 @@ copilot plugin marketplace add andresscode/jira-assistant#release
 copilot plugin install jira-assistant@jira-assistant
 ```
 
+More in GitHub's guide to [finding and installing plugins](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing).
+
 ### GitHub Copilot app
 
 1. Open **Customize**.
 2. Click **+ Add**, choose **Manage marketplaces**, and add the marketplace `andresscode/jira-assistant#release`.
 3. Click **+ Add** again, choose **Plugin**, enter `jira-assistant@jira-assistant` and click **Install**.
+
+More in GitHub's guide to [customizing the GitHub Copilot app](https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app#adding-plugins).
 
 ### IntelliJ IDEA
 
@@ -67,6 +73,10 @@ Ask your assistant "Is Jira Assistant working?" It should reply with the install
 In the GitHub Copilot app, this error shows on the jira-assistant MCP server under **Customize** > **Installed**.
 
 The app can't find Node.js. This happens when Node.js was installed with a version manager such as fnm or nvm, which only make it available in terminals. Install Node.js 24 or newer with the installer from [nodejs.org](https://nodejs.org/) (or `winget install OpenJS.NodeJS.LTS` on Windows), then restart the app.
+
+**`Failed to update plugin` … `Plugin files may be in use by another app`**
+
+Another app that uses Jira Assistant is still running, for example IntelliJ IDEA while you update in the GitHub Copilot app. Close the other apps, update, then reopen them.
 
 ## Contributing
 
