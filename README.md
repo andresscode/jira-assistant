@@ -18,7 +18,6 @@ A plugin for AI assistants that checks Jira tickets against your team's Definiti
 - Claude Code
 - GitHub Copilot CLI
 - GitHub Copilot app
-- IntelliJ IDEA, with the GitHub Copilot plugin
 
 Plugin support is recent in all of these apps. Update to the latest version before installing.
 
@@ -28,7 +27,7 @@ Node.js 24 or newer, installed so that every app can find it. Use the installer 
 
 ## Installation
 
-Jira Assistant is installed from its marketplace, the `release` branch of this repository. For the command-line apps, run the commands in a terminal. Inside a session, the same commands work as `/plugin ...`.
+Jira Assistant is installed from its marketplace, the `release` branch of this repository. For Claude Code and GitHub Copilot CLI, run the commands in a terminal.
 
 ### Claude Code
 
@@ -56,15 +55,56 @@ More in GitHub's guide to [finding and installing plugins](https://docs.github.c
 
 More in GitHub's guide to [customizing the GitHub Copilot app](https://docs.github.com/en/copilot/how-tos/github-copilot-app/customize-github-copilot-app#adding-plugins).
 
-### IntelliJ IDEA
-
-1. In **Settings**, go to **GitHub Copilot** > **Customizations** and open **Plugins**.
-2. Click **+**, add the marketplace `andresscode/jira-assistant#release`, then click **Apply** and **OK**.
-3. In the Copilot chat, open the customizations menu, select **Plugins**, find **jira-assistant** and install it.
-
 ### Check that it works
 
 Ask your assistant "Is Jira Assistant working?" It should reply with the installed version.
+
+## Updating
+
+Turn on auto-update where your app supports it, so you get fixes as soon as they're released. If you'd rather review each release before it's installed, update manually instead.
+
+### Claude Code
+
+To update automatically, start a Claude Code session, run `/plugin`, open **Marketplaces**, select **jira-assistant** and choose **Enable auto-update**.
+
+To update manually, run this in a terminal:
+
+```sh
+claude plugin update jira-assistant
+```
+
+Or, in a Claude Code session, run `/plugin`, open **Installed**, select **jira-assistant** and choose **Update now**.
+
+More in Claude Code's guide to [keeping plugins updated](https://code.claude.com/docs/en/plugins/install#keep-plugins-updated).
+
+### GitHub Copilot CLI
+
+To update automatically at the start of each Copilot CLI session, open `settings.json` in the `.copilot` folder of your home directory. Under `extraKnownMarketplaces`, find the `jira-assistant` entry and add `"autoUpdate": true`, next to its `source`. Leave `source` as it is:
+
+```jsonc
+{
+  "extraKnownMarketplaces": {
+    "jira-assistant": {
+      "source": { ... },
+      "autoUpdate": true
+    }
+  }
+}
+```
+
+To update manually, run this in a terminal:
+
+```sh
+copilot plugin update jira-assistant
+```
+
+Or, in a Copilot CLI session, run `/plugin update jira-assistant`.
+
+More in GitHub's [plugin reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference#copilot-plugin-update-options).
+
+### GitHub Copilot app
+
+The app doesn't update plugins automatically. Open **Customize** > **Installed**, click **jira-assistant** under **Plugins**, then click **Update plugin**.
 
 ## Troubleshooting
 
@@ -76,7 +116,7 @@ The app can't find Node.js. This happens when Node.js was installed with a versi
 
 **`Failed to update plugin` … `Plugin files may be in use by another app`**
 
-Another app that uses Jira Assistant is still running, for example IntelliJ IDEA while you update in the GitHub Copilot app. Close the other apps, update, then reopen them.
+Another app is using the plugin files while the GitHub Copilot app tries to replace them. IntelliJ IDEA with GitHub Copilot does this: it uses the plugins installed by the GitHub Copilot app, from `~\.copilot\installed-plugins\jira-assistant\jira-assistant`. Close IntelliJ IDEA, update, then reopen it.
 
 ## Contributing
 
