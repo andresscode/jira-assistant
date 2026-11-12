@@ -13,15 +13,60 @@ A plugin for AI assistants that checks Jira tickets against your team's Definiti
 - **Fill the gaps:** ask for missing information a few questions at a time, and remember your progress between sessions.
 - **Rewrite the ticket:** update its title and description using your team's template, only after you review and confirm the change.
 
-## Planned support
+## Supported apps
 
-- GitHub Copilot app
-- GitHub Copilot CLI
 - Claude Code
+- GitHub Copilot CLI
+- GitHub Copilot app
+- IntelliJ IDEA, with the GitHub Copilot plugin
+
+Plugin support is recent in all of these apps. Update to the latest version before installing.
+
+## Requirements
+
+Node.js 24 or newer, installed so that every app can find it. Use the installer from [nodejs.org](https://nodejs.org/) or a package manager such as `winget` or Homebrew. If you installed Node.js with a version manager such as fnm or nvm, desktop apps may not find it (see [Troubleshooting](#troubleshooting)).
 
 ## Installation
 
-Coming soon.
+Jira Assistant is installed from its marketplace, the `release` branch of this repository.
+
+### Claude Code
+
+```text
+/plugin marketplace add andresscode/jira-assistant#release
+/plugin install jira-assistant@jira-assistant
+```
+
+### GitHub Copilot CLI
+
+```sh
+copilot plugin marketplace add andresscode/jira-assistant#release
+copilot plugin install jira-assistant@jira-assistant
+```
+
+### GitHub Copilot app
+
+1. Open **Customize**.
+2. Click **+ Add**, choose **Manage marketplaces**, and add the marketplace `andresscode/jira-assistant#release`.
+3. Click **+ Add** again, choose **Plugin**, enter `jira-assistant@jira-assistant` and click **Install**.
+
+### IntelliJ IDEA
+
+1. In **Settings**, go to **GitHub Copilot** > **Customizations** and open **Plugins**.
+2. Click **+**, add the marketplace `andresscode/jira-assistant#release`, then click **Apply** and **OK**.
+3. In the Copilot chat, open the customizations menu, select **Plugins**, find **jira-assistant** and install it.
+
+### Check that it works
+
+Ask your assistant "Is Jira Assistant working?" It should reply with the installed version.
+
+## Troubleshooting
+
+**`failed to spawn MCP server process: node: program not found`**
+
+In the GitHub Copilot app, this error shows on the jira-assistant MCP server under **Customize** > **Installed**.
+
+The app can't find Node.js. This happens when Node.js was installed with a version manager such as fnm or nvm, which only make it available in terminals. Install Node.js 24 or newer with the installer from [nodejs.org](https://nodejs.org/) (or `winget install OpenJS.NodeJS.LTS` on Windows), then restart the app.
 
 ## Contributing
 
