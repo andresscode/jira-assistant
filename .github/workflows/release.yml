@@ -1,0 +1,69 @@
+name: Release
+
+# Pushing a vX.Y.Z tag (made by `pnpm release`) publishes the built plugin and its
+# marketplace catalog to the `release` branch, which is where users install from.
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+# Releases run one at a time, in order, and are never cancelled halfway.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+# Third-party actions are pinned to a commit, with the release tag in a comment.
+jobs:
+  release:
+    name: Publish ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Check the tag is on main
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::$GITHUB_REF_NAME is not on main. Release only from main."
+            exit 1
+          fi
+      - name: Check the tag matches package.json
+        run: |
+          VERSION="v$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "$VERSION" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match package.json ($VERSION). Use pnpm release."
+            exit 1
+          fi
+
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build:release
+
+      # The release branch holds only built releases, one commit per version.
+      # It's created on the first release.
+      - name: Publish to the release branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin release > /dev/null; then
+            git fetch origin release
+            git worktree add publish origin/release
+            git -C publish switch -c release
+          else
+            git worktree add --orphan -b release publish
+          fi
+          find publish -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -R release/. publish/
+          git -C publish add --all
+          git -C publish commit --message "chore: release ${GITHUB_REF_NAME#v}"
+          git -C publish push origin release

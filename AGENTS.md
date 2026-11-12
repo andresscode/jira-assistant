@@ -22,6 +22,8 @@ A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira ticket
 - `pnpm test`: run all tests (unit, then end-to-end)
 - `pnpm test:unit`: run the unit tests in `test/unit/` (no build needed)
 - `pnpm test:e2e`: build, then run the end-to-end tests in `test/e2e/` against the bundle
+- `pnpm build:release`: build, then write the release folder `release/` (marketplace catalog and built plugin)
+- `pnpm release <patch|minor|major>`: bump the version, commit and tag it; only the user runs this (see Releases in `CONTRIBUTING.md`)
 
 When you add or change a script, update this list and the table in `CONTRIBUTING.md`.
 

@@ -1,6 +1,7 @@
 # Jira Assistant
 
 [![CI](https://github.com/andresscode/jira-assistant/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/andresscode/jira-assistant/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/tag/andresscode/jira-assistant?label=release)](https://github.com/andresscode/jira-assistant/tags)
 ![Status: early development](https://img.shields.io/badge/status-early%20development-orange)
 ![Node >=24](https://img.shields.io/badge/node-%3E%3D24-339933?logo=node.js&logoColor=white)
 
