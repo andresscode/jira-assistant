@@ -5,13 +5,13 @@
 ![Status: early development](https://img.shields.io/badge/status-early%20development-orange)
 ![Node >=24](https://img.shields.io/badge/node-%3E%3D24-339933?logo=node.js&logoColor=white)
 
-A plugin for AI assistants that checks Jira tickets against your team's Definition of Ready and helps refine them.
+A plugin for AI assistants that checks Jira issues (also called tickets or work items) against your team's Definition of Ready and helps refine them.
 
 ## What it will do
 
-- **Check a ticket:** compare it with your team's Definition of Ready and show which criteria are met, missing or unclear.
+- **Check an issue:** compare it with your team's Definition of Ready and show which criteria are met, missing or unclear.
 - **Fill the gaps:** ask for missing information a few questions at a time, and remember your progress between sessions.
-- **Rewrite the ticket:** update its title and description using your team's template, only after you review and confirm the change.
+- **Rewrite the issue:** update its title and description using your team's template, only after you review and confirm the change.
 
 ## Supported apps
 

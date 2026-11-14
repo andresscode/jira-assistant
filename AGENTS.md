@@ -4,7 +4,7 @@ Instructions for AI coding agents working in this repository.
 
 ## Project
 
-A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira tickets against a team's Definition of Ready and helps refine them. It's an MCP server written in TypeScript, bundled into one file that ships inside the plugin. Early development.
+A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira issues against a team's Definition of Ready and helps refine them. It's an MCP server written in TypeScript, bundled into one file that ships inside the plugin. Early development.
 
 ## Structure
 
@@ -30,6 +30,7 @@ When you add or change a script, update this list and the table in `CONTRIBUTING
 ## Conventions
 
 - Use pnpm, never npm or yarn. Node.js 24 or newer.
+- Call Jira items "issues", as the Jira API does, never "tickets". Tool and skill descriptions may also mention "ticket" and "work item" once, so the AI recognises every way users ask.
 - Never write to stdout in server code: it carries the MCP messages, so a stray `console.log` breaks the plugin. Log with `console.error`.
 - Node runs the `.ts` files directly, so use only syntax it can strip: no `enum`, `namespace` or constructor parameter properties. Local imports end in `.ts`, and JSON imports need `with { type: 'json' }`.
 - Code must work on Windows and macOS (CI runs on Linux and Windows): build paths with `node:path` and `os.homedir()`, never by hand, and keep `package.json` scripts free of Unix-only syntax (use double quotes).

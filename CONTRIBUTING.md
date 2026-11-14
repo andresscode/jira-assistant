@@ -49,7 +49,7 @@ Tests use Node's built-in test runner (`node:test` and `node:assert`). Node runs
 - **Unit tests** go in `test/unit/` and import code from `src/` directly. Use them for logic with many cases.
 - **End-to-end tests** go in `test/e2e/`. They start the built server the way an AI tool does and talk to it over MCP.
 - Name test files `*.test.ts`.
-- Use invented data only, such as `ABC-123` and `example.atlassian.net`. Never use real ticket content or API responses.
+- Use invented data only, such as `ABC-123` and `example.atlassian.net`. Never use real issue content or API responses.
 
 ## Git hooks
 
@@ -64,7 +64,7 @@ Tests use Node's built-in test runner (`node:test` and `node:assert`). Node runs
 Messages follow [Conventional Commits](https://www.conventionalcommits.org/): `<type>: <description>`.
 
 ```text
-feat: add ticket readiness check
+feat: add issue readiness check
 fix: keep line breaks in rewritten descriptions
 docs: explain the install steps
 chore: update biome

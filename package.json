@@ -2,7 +2,7 @@
   "name": "jira-assistant",
   "version": "0.0.3",
   "private": true,
-  "description": "AI plugin that checks Jira tickets against a Definition of Ready and refines them",
+  "description": "AI plugin that checks Jira issues against a Definition of Ready and refines them",
   "author": "Andres Martinez",
   "type": "module",
   "scripts": {
