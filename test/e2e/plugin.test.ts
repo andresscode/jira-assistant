@@ -53,12 +53,12 @@ describe('MCP configs', () => {
       t.after(() => client.close())
 
       const result = await client.callTool({ name: 'status' })
-      assert.deepEqual(result.content, [
-        {
-          type: 'text',
-          text: `Jira Assistant ${pkg.version} is running (Node.js ${process.versions.node}).`,
-        },
-      ])
+      const [content] = result.content as { type: string; text: string }[]
+      assert.ok(
+        content?.text.startsWith(
+          `Jira Assistant ${pkg.version} is running (Node.js ${process.versions.node}).`,
+        ),
+      )
     })
   }
 })

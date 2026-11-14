@@ -18,9 +18,10 @@ pnpm install
 
 ## Project structure
 
-- `src/index.ts`: entry point. The AI tool starts the server and talks to it over stdin and stdout.
-- `src/server.ts`: creates the server and registers every tool.
+- `src/index.ts`: entry point. The AI tool starts the server and talks to it over stdin and stdout. It creates the real dependencies, such as the Jira client, and passes them to `createServer`.
+- `src/server.ts`: creates the server and registers every tool, passing each tool the dependencies it needs. Tests pass fakes instead.
 - `src/tools/`: one file per tool.
+- `src/jira/`: talking to Jira. Tools use the `JiraClient` interface; `JiraCloudClient` implements it for Jira Cloud.
 - `plugin/`: what ships to users. One folder serves both AI tools: Claude Code reads `.claude-plugin/plugin.json` and `.mcp.json`, Copilot reads `plugin.json` and `mcp.json`, and both share `skills/`. `plugin/dist/` and both `plugin.json` files are build output and aren't committed.
 - `scripts/build-manifests.ts`: writes both `plugin.json` files from `package.json` during the build.
 - `scripts/build-release.ts`: puts together what a release publishes (see [Releases](#releases)).
@@ -50,6 +51,27 @@ Tests use Node's built-in test runner (`node:test` and `node:assert`). Node runs
 - **End-to-end tests** go in `test/e2e/`. They start the built server the way an AI tool does and talk to it over MCP.
 - Name test files `*.test.ts`.
 - Use invented data only, such as `ABC-123` and `example.atlassian.net`. Never use real issue content or API responses.
+- Tests never call a real Jira. Unit tests pass a fake `fetch` or a fake `JiraClient`.
+
+## Connecting to Jira while developing
+
+Until the setup page exists, the server reads its Jira settings from environment variables. Use a Jira Cloud site of your own for testing, such as a free one.
+
+1. Create an API token at [id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens).
+2. Build the plugin with `pnpm build`.
+3. In a new terminal, set the variables. `read -s` asks for the token without showing it or saving it in your shell history (zsh syntax):
+
+   ```zsh
+   export JA_JIRA_URL=https://your-site.atlassian.net
+   export JA_JIRA_EMAIL=you@example.com
+   read -s "JA_JIRA_API_TOKEN?Jira API token: " && export JA_JIRA_API_TOKEN && echo
+   ```
+
+4. From the same terminal, start Claude Code with the plugin from your working copy, then ask "Is Jira Assistant working?":
+
+   ```zsh
+   claude --plugin-dir ./plugin
+   ```
 
 ## Git hooks
 
