@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { type TestContext, test } from 'node:test'
+import { describe, it, type TestContext } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
@@ -22,31 +22,33 @@ async function connect(t: TestContext): Promise<Client> {
   return client
 }
 
-test('built server starts and reports its name and version', {
-  timeout: 10_000,
-}, async (t) => {
-  const client = await connect(t)
+const timeout = 10_000
 
-  const server = client.getServerVersion()
-  assert.equal(server?.name, pkg.name)
-  assert.equal(server?.version, pkg.version)
-})
+describe('built server', () => {
+  it('starts and reports its name and version', { timeout }, async (t) => {
+    const client = await connect(t)
 
-test('status tool reports the running version', {
-  timeout: 10_000,
-}, async (t) => {
-  const client = await connect(t)
+    const server = client.getServerVersion()
+    assert.equal(server?.name, pkg.name)
+    assert.equal(server?.version, pkg.version)
+  })
 
-  const { tools } = await client.listTools()
-  const status = tools.find((tool) => tool.name === 'status')
-  assert.ok(status, 'status tool is listed')
-  assert.equal(status.annotations?.readOnlyHint, true)
+  it('lists a status tool that reports the running version', {
+    timeout,
+  }, async (t) => {
+    const client = await connect(t)
 
-  const result = await client.callTool({ name: 'status' })
-  assert.deepEqual(result.content, [
-    {
-      type: 'text',
-      text: `Jira Assistant ${pkg.version} is running (Node.js ${process.versions.node}).`,
-    },
-  ])
+    const { tools } = await client.listTools()
+    const status = tools.find((tool) => tool.name === 'status')
+    assert.ok(status, 'status tool is listed')
+    assert.equal(status.annotations?.readOnlyHint, true)
+
+    const result = await client.callTool({ name: 'status' })
+    assert.deepEqual(result.content, [
+      {
+        type: 'text',
+        text: `Jira Assistant ${pkg.version} is running (Node.js ${process.versions.node}).`,
+      },
+    ])
+  })
 })
