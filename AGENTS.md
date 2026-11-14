@@ -10,6 +10,9 @@ A plugin for AI assistants (GitHub Copilot, Claude Code) that checks Jira issues
 
 - `src/index.ts` is the entry point, and `src/server.ts` creates the server and registers every tool.
 - Each tool lives in its own file in `src/tools/`. A new tool needs: a description that tells the AI when to use it, correct annotations (`readOnlyHint` when it changes nothing), registration in `src/server.ts`, and an end-to-end test.
+- Tools never create clients or read settings themselves. They receive what they need (such as the Jira client) through `createServer`. The real ones are created only in `src/index.ts`, and tests pass fakes. Add an interface only when there's a second implementation or a test needs a fake.
+- `src/jira/` talks to Jira: tools use the `JiraClient` interface, implemented for Cloud by `JiraCloudClient`. Errors are `JiraError`s whose messages are written for the user and never contain credentials.
+- During development the server reads its Jira settings from `JA_` environment variables (see "Connecting to Jira while developing" in `CONTRIBUTING.md`).
 - `plugin/` is what ships to users, one folder for both AI tools: Claude Code reads `.claude-plugin/plugin.json` and `.mcp.json`, Copilot reads `plugin.json` and `mcp.json` (Agent Plugins 1.0), and both share `skills/`. `plugin/dist/` and both `plugin.json` files are build output, written from `package.json` by `scripts/build-manifests.ts`; edit `package.json`, not the manifests.
 
 ## Commands
